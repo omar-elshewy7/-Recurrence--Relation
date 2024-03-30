@@ -15,6 +15,19 @@ char getNextItem(string original_string, int i)
   return original_string[i + 1];
 }
 
+int getActualArrSize(string arr[], int length)
+{
+  int size = 0;
+
+  for (int i = 0; i < length - 1; i++)
+  {
+    if (i % 2 == 0 && arr[i].length() > 0)
+      size++;
+  }
+
+  return size;
+}
+
 int getParenthesesLevel(string term, int index)
 {
   int parenthesesLevel = 0;
@@ -51,7 +64,7 @@ int getHighestParenthesesLevel(string term)
 
 string *separateExpression(string expression)
 {
-  static string terms[100];
+  static string terms[10];
   int termsIndex = 0;
 
   string term = "";
@@ -60,7 +73,7 @@ string *separateExpression(string expression)
   {
     char ch = expression[i];
 
-    if (getParenthesesLevel(expression, i) == 0 && (ch == '+' || ch == '-'))
+    if (getParenthesesLevel(expression, i) == 0 && ch != ' ' && (ch == '+' || ch == '-'))
     {
       terms[termsIndex++] = term;
       terms[termsIndex++] = ch;
@@ -80,27 +93,46 @@ string *separateExpression(string expression)
   return terms;
 }
 
-// string *fitArr(string arr[])
-// {
-//   int arrLen = 1, i = 0;
+int getLargestNum(int numbers[], int length)
+{
+  int largest = numbers[0];
 
-//   while (i < arrLen)
-//   {
-//     if (arr[i].length() == 0)
-//     {
-//       arrLen--;
-//       continue;
-//     }
+  for (int i = 1; i < length; i++)
+  {
+    if (largest < numbers[i])
+      largest = numbers[i];
+  }
 
-//     i++, arrLen++;
-//   }
+  return largest;
+}
 
-//   string fittedArr[arrLen + 1] = {arrLen + ""};
+int getLeastNum(int numbers[], int length)
+{
+  int smallest = numbers[0];
 
-//   for (i = 1; i < arrLen; i++)
-//   {
-//     fittedArr[i] = arr[i];
-//   }
+  for (int i = 1; i < length; i++)
+  {
+    if (smallest > numbers[i])
+      smallest = numbers[i];
+  }
 
-//   return fittedArr;
-// }
+  return smallest;
+}
+
+void printIntArr(int arr[], int length)
+{
+  for (int i = 0; i < length; i++)
+  {
+    cout << arr[i] << " ";
+  }
+
+  cout << endl;
+}
+
+void clearArr(int arr[], int length)
+{
+  for (int i = 0; i < length; i++)
+  {
+    arr[i] = 0;
+  }
+}

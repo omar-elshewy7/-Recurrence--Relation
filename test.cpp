@@ -11,8 +11,8 @@ int main()
       {
           "(a(n-1))/na(n-1)",
           "(a(n-1))^0.5",
-          "3a(n-1)+a(n-2)",
-          "3a(n-1)+2^n",
+          "3a(n-1)+a(n+2)",
+          "3a(n-0)+2^n",
           "3a(n-1)+5",
           "(a(n-1))^1+3(a(n-2))^1",
           "2a(n-1)+na(n-2)",
@@ -30,6 +30,11 @@ int main()
   {
     string *terms = separateExpression(testTerms[i]);
 
+    bool linear = isLinear(terms),
+         homogeneous = isHomogeneous(terms),
+         constantCoefficient = isConstantCoefficient(terms);
+    int degree = getDegree(terms);
+
     cout << i + 1 << ". ";
 
     for (int i = 0; i < terms->size(); i++)
@@ -37,12 +42,20 @@ int main()
       cout << terms[i] << " ";
     }
 
-    // cout << "\nIs Linear: " << (isLinear(terms) ? "true" : "false") << endl;
-    // cout << "Is Homogeneous: " << (isHomogeneous(terms) ? "true" : "false") << endl;
-    // cout << "Is Constant Coefficient: " << (isConstantCoefficient(terms) ? "true" : "false") << endl;
+    // cout << "\nIs Linear: " << (linear? "true" : "false") << endl;
+    // cout << "Is Homogeneous: " << (homogeneous? "true" : "false") << endl;
+    // cout << "Is Constant Coefficient: " << (constantCoefficient? "true" : "false") << endl;
+    /*
+    cout << "Degree: " << (degree == 1 ? "n cannot be a negative number" : degree == 0 ? "n cannot be zero"
+                                                                                       : to_string(degree))
+         << endl;
+    */
 
-    cout << "\nThis is a" << (isLinear(terms) ? " " : " non-") << "linear" << (isHomogeneous(terms) ? " " : " non-") << "Homogeneous and is" << (isConstantCoefficient(terms) ? " " : " not ") << "constant coefficient." << endl;
-
-    cout << endl;
+    cout << "\nThis is a" << (linear ? " " : " non-") << "linear"
+         << (homogeneous ? " " : " non-") << "Homogeneous and is"
+         << (constantCoefficient ? " " : " not ") << "constant coefficient. Degree: " << (degree == 1 ? "n cannot be a negative number" : degree == 0 ? "n cannot be zero"
+                                                                                                                                                      : to_string(-1 * degree))
+         << '.' << endl
+         << endl;
   }
 }

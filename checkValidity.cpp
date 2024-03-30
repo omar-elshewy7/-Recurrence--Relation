@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 
 #include "helper.cpp"
 
@@ -111,8 +110,6 @@ bool isConstantCoefficient(string terms[])
       }
     }
 
-    // cout << "n count: " << nCount << " n in a count: " << nCountAfterA << endl;
-
     if (aCount > 1)
       isConstantCoefficientCheck = false;
 
@@ -125,5 +122,51 @@ bool isConstantCoefficient(string terms[])
 
 int getDegree(string terms[])
 {
-  int degree = 0;
+  int termsSize = getActualArrSize(terms, terms->size());
+
+  int degrees[termsSize];
+  int degreesCount = 0;
+  clearArr(degrees, termsSize);
+
+  for (int i = 0; i < terms->size(); i++)
+  {
+    if (i % 2 == 1 || terms[i].size() == 0)
+      continue;
+
+    string term = terms[i];
+    int aOfNIndex = term.find("a(n");
+
+    if (aOfNIndex != string::npos)
+    {
+      int j = aOfNIndex + 3, parenthesesCounter = 1;
+
+      string degree = "";
+
+      while (parenthesesCounter > 0)
+      {
+
+        if (term[j] == '(')
+          parenthesesCounter++;
+
+        if (term[j] == ')')
+          parenthesesCounter--;
+
+        if (term[j] == '+' || term[j] == '-' || isdigit(term[j]))
+          degree += term[j];
+
+        j++;
+      }
+
+      degrees[degreesCount] = stoi(degree);
+      degreesCount++;
+    }
+  }
+
+  int largestDegree = getLargestNum(degrees, termsSize),
+      leastDegree = getLeastNum(degrees, termsSize);
+
+  if (largestDegree > 0)
+    return 1;
+
+  return leastDegree;
 }
